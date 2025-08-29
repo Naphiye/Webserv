@@ -3,7 +3,7 @@
 Ce projet consiste à développer un **serveur HTTP** en **C++98**, respectant la norme **RFC 7230**.  
 L’objectif est de comprendre en profondeur le fonctionnement du protocole HTTP et des serveurs web, tout en implémentant un serveur performant, robuste et sécurisé.
 
-Ce projet a été réalisé en **binôme avec [Antoine Jourdan Astruc](https://github.com/Ajap75) et [Jerome Portier](https://github.com/jeportie)**.
+Ce projet a été réalisé en **groupe avec [Antoine Jourdan Astruc](https://github.com/Ajap75) et [Jerome Portier](https://github.com/jeportie)**.
 
 ---
 
