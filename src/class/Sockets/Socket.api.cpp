@@ -1,0 +1,78 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Socket.api.cpp                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/07 12:32:17 by jeportie          #+#    #+#             */
+/*   Updated: 2025/06/03 17:13:54 by anastruc         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <cmath>
+#include <cstdio>
+#include <cerrno>
+#include <cstring>
+#include <fcntl.h>
+#include <unistd.h>
+#include <sys/epoll.h>
+#include <sys/socket.h>
+
+#include "Socket.hpp"
+#include "../Errors/ErrorHandler.hpp"
+#include "../../../include/webserv.hpp"
+
+bool Socket::socketCreate(void)
+{
+    std::string msg;
+
+    this->_socketFd = socket(AF_INET, SOCK_STREAM, 0);
+    if (this->_socketFd < 0)
+    {
+        msg = strerror(errno);
+        LOG_SYSTEM_ERROR(ERROR, SOCKET_ERROR, LOG_ERROR_CREATING_SOCKET + msg, __FUNCTION__);
+        return (false);
+    }
+    return (true);
+}
+
+bool Socket::setReuseAddr(bool reuse)
+{
+    int         option;
+    std::string msg;
+
+    if (!isValid())
+    {
+        LOG_SYSTEM_ERROR(ERROR, SOCKET_ERROR, LOG_CANNOT_SET_SO_REUSEADDR, __FUNCTION__);
+        return (false);
+    }
+
+    option = reuse ? 1 : 0;
+
+    if (setsockopt(_socketFd, SOL_SOCKET, SO_REUSEADDR, &option, sizeof(option)) < 0)
+    {
+        msg = strerror(errno);
+        LOG_SYSTEM_ERROR(ERROR, SOCKET_ERROR, LOG_ERROR_SETTING_SO_REUSEADDR + msg, __FUNCTION__);
+        return (false);
+    }
+    return (true);
+}
+
+void Socket::closeSocket(void)
+{
+    if (isValid())
+    {
+        close(_socketFd);
+        _socketFd      = -1;
+        _isNonBlocking = false;
+    }
+}
+
+int Socket::getFd(void) const { return (_socketFd); }
+
+void Socket::setFd(int fd) { _socketFd = fd; }
+
+bool Socket::isValid(void) const { return (_socketFd != -1); }
+
+bool Socket::isNonBlocking(void) const { return (_isNonBlocking); }
