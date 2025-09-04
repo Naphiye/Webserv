@@ -29,17 +29,21 @@ Ce projet a été réalisé en **groupe avec [Antoine Jourdan Astruc](https://gi
 
 ## 🚀 Lancement
 
-1. Compiler le projet :  
+1. Compiler le projet :
+ ```bash 
 make  
+```
 
-2. Lancer le serveur avec le fichier de configuration :  
+2. Lancer le serveur avec le fichier de configuration :
+```bash
 ./webserv www/server_config.txt  
+```
 
 3. Le serveur est accessible via votre navigateur ou via `curl` sur le port défini dans la configuration.  
 
 ## 💡 Notes
 
-- Chaque virtual host peut avoir ses propres routes, pages d’erreur et limites de body.  
-- Le serveur supporte les scripts CGI pour exécuter des programmes côté serveur.  
+- Chaque virtual host peut avoir ses propres routes, pages d’erreur et limites de body et les méthodes supportées.  
+- Le serveur supporte les scripts CGI em php pour exécuter des programmes côté serveur.  
 - Une attention particulière a été portée à la validation stricte des requêtes pour éviter les comportements indéfinis ou les crashs.  
-- La sécurité a été renforcée pour éviter les buffer overflows dans les headers et autres entrées critiques.
+- La sécurité a été renforcée pour éviter les buffer overflows dans les headers et autres entrées critiques(details a venir).
